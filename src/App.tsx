@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import Estacionamiento from './pantallas/Estacionamiento'
+import Proyectos from './pantallas/Proyectos'
 
 type Pestana = 'hoy' | 'proyectos' | 'estacionamiento'
 
@@ -41,7 +43,9 @@ export default function App() {
   return (
     <div className="mx-auto flex h-full max-w-md flex-col">
       <main className="flex-1 overflow-y-auto px-4 pt-6 pb-8">
-        <h1 className="text-2xl font-semibold capitalize">{pestana}</h1>
+        {pestana === 'hoy' && <h1 className="text-2xl font-semibold">Hoy</h1>}
+        {pestana === 'proyectos' && <Proyectos />}
+        {pestana === 'estacionamiento' && <Estacionamiento />}
       </main>
       <nav className="flex border-t border-neutral-800 pb-[env(safe-area-inset-bottom)]">
         {PESTANAS.map(({ id, nombre, icono }) => (
