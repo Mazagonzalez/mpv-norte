@@ -62,6 +62,23 @@ export function reanudar(id: string, siguientePaso: string) {
   })
 }
 
+export function fijarFoco(fecha: string, proyectoId: string, paso: string) {
+  return db.transaction('rw', db.proyectos, db.focos, async () => {
+    if (await db.focos.get(fecha)) throw new Error('Ya tienes un foco para hoy.')
+    const proyecto = await db.proyectos.get(proyectoId)
+    if (proyecto?.estado !== 'activo') throw new Error('El foco tiene que ser de un proyecto activo.')
+    await db.focos.add({ fecha, proyectoId, paso: paso.trim(), hecho: false })
+  })
+}
+
+/** Marca el foco como hecho y, si se indica, actualiza en el mismo paso el siguiente paso del proyecto. */
+export function marcarHecho(fecha: string, proyectoId: string, siguientePaso?: string) {
+  return db.transaction('rw', db.proyectos, db.focos, async () => {
+    await db.focos.update(fecha, { hecho: true })
+    if (siguientePaso !== undefined) await actualizarSiguientePaso(proyectoId, siguientePaso)
+  })
+}
+
 export function capturarIdea(titulo: string) {
   return db.ideas.add({ id: crypto.randomUUID(), titulo: titulo.trim(), fecha: new Date().toISOString() })
 }
