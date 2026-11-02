@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import Ajustes from './pantallas/Ajustes'
 import Estacionamiento from './pantallas/Estacionamiento'
+import Hoy from './pantallas/Hoy'
 import Proyectos from './pantallas/Proyectos'
 
-type Pestana = 'hoy' | 'proyectos' | 'estacionamiento'
+type Pestana = 'hoy' | 'proyectos' | 'estacionamiento' | 'ajustes'
 
 const PESTANAS: { id: Pestana; nombre: string; icono: React.ReactNode }[] = [
   {
@@ -43,9 +45,10 @@ export default function App() {
   return (
     <div className="mx-auto flex h-full max-w-md flex-col">
       <main className="flex-1 overflow-y-auto px-4 pt-6 pb-8">
-        {pestana === 'hoy' && <h1 className="text-2xl font-semibold">Hoy</h1>}
+        {pestana === 'hoy' && <Hoy onAjustes={() => setPestana('ajustes')} onProyectos={() => setPestana('proyectos')} />}
         {pestana === 'proyectos' && <Proyectos />}
         {pestana === 'estacionamiento' && <Estacionamiento />}
+        {pestana === 'ajustes' && <Ajustes onVolver={() => setPestana('hoy')} />}
       </main>
       <nav className="flex border-t border-neutral-800 pb-[env(safe-area-inset-bottom)]">
         {PESTANAS.map(({ id, nombre, icono }) => (
