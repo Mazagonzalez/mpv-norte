@@ -29,7 +29,7 @@ const PESTANAS: { id: Pestana; nombre: string; icono: React.ReactNode }[] = [
   },
   {
     id: 'estacionamiento',
-    nombre: 'Estacionamiento',
+    nombre: 'Estacionamientos',
     icono: (
       <>
         <rect x="4" y="4" width="16" height="16" rx="3" />
